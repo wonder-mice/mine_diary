@@ -1,0 +1,44 @@
+#!/usr/bin/python
+
+import os
+import sys
+import shutil
+
+drawable_targets = ["mdpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi"]
+drawable_name_map = {
+	"food_and_drinks": "food_and_drinks"
+}
+
+def generate_drawable(raw_dir, res_dir):
+    raw_drawable_dir = os.path.join(raw_dir, "drawable")
+    res_drawable_dir_template = os.path.join(res_dir, "drawable-%s")
+    for file in os.listdir(raw_drawable_dir):
+        src_path = os.path.join(raw_drawable_dir, file)
+        src_short_path = os.path.relpath(src_path)
+        parts = file.split(".")
+        name = parts[0]
+        if name not in drawable_name_map:
+            print "[skip] %s (name not mapped)" % src_short_path
+            continue
+        target = parts[1]
+        if target not in drawable_targets:
+            print "[skip] %s (unknown target)" % src_short_path
+            continue
+        ext = parts[-1]
+        dst_path = os.path.join(res_drawable_dir_template % target, "%s.%s" % (drawable_name_map[name], ext))
+        dst_short_path = os.path.relpath(dst_path)
+        print "[copy] %s -> %s" % (src_short_path, dst_short_path)
+        dst_dir = os.path.dirname(dst_path)
+        if not os.path.isdir(dst_dir):
+            os.makedirs(dst_dir)
+        shutil.copyfile(src_path, dst_path)
+    pass
+
+def main(argv):
+    raw_dir = os.path.dirname(os.path.realpath(__file__))
+    res_dir = os.path.join(os.path.dirname(raw_dir), "res")
+    generate_drawable(raw_dir, res_dir)
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv))

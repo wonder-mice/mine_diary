@@ -1,5 +1,5 @@
 buildscript {
-    repositories {
+	repositories {
 		if ('allow' == System.properties['build.network_access']) {
 			mavenCentral()
 		} else {
@@ -7,32 +7,23 @@ buildscript {
 				url 'dependencies'
 			}
 		}
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:1.2.0-beta2'
-    }
+	}
+	dependencies {
+		classpath 'com.android.tools.build:gradle:1.2.0-beta2'
+	}
 }
 
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "20.0.0"
+	compileSdkVersion 22
+	buildToolsVersion "22.0.1"
 
-    defaultConfig {
-        applicationId "com.mycompany.myapplication"
-        minSdkVersion 13
-        targetSdkVersion 20
-        versionCode 1
-        versionName "1.0"
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-        }
-         debug {
-            debuggable true
-        }
-    }
+	defaultConfig {
+		applicationId "com.causaldomain.mine_diary"
+		minSdkVersion 21
+		targetSdkVersion 21
+		versionCode 1
+		versionName "1.0"
+	}
 }
